@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionView_BugRepro.Views.CellReuseBugPage"
+             Title="{Binding Title}"
+             xmlns:views="clr-namespace:CollectionView_BugRepro.Views" 
+             xmlns:cnvrtr="clr-namespace:CollectionView_BugRepro.Converters"
+             x:Name="CollectionReuseBugPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cnvrtr:MeasurementUnitStringConverter x:Key="MeasurementUnitStringConverter" />
+            <cnvrtr:YardsConverter x:Key="YardsConverter" />
+            <cnvrtr:IndexOfCollectionConverter x:Key="IndexOfCollectionConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <RefreshView Command="{Binding ReloadCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}" PropertyChanged="RefreshView_PropertyChanged">
+            <ScrollView VerticalOptions="FillAndExpand">
+                <Grid RowDefinitions="*,*">
+                    <StackLayout Grid.Row="0">
+                        <Button Text="Switch Units of Measurement" Clicked="ToggleMeasurementUnits_Clicked" Margin="8" FontSize="16" FontAttributes="Bold"/>
+                        <Label Text="{Binding MeasurementUnitType}" HorizontalOptions="Center" FontSize="30" Margin="8"/>
+                        <views:DistanceItemsView x:Name="DistanceItemsView" HeightRequest="200" />
+                    </StackLayout>
+
+
+                    <StackLayout Margin="8,0" Grid.Row="1" BackgroundColor="#f5f5f5">
+                        <Label Text="Reproduction Steps:" FontAttributes="Bold" FontSize="Large"/>
+                        <Label Text="Bug only for iOS" FontAttributes="Italic" FontSize="Small"/>
+
+                        <Label Text="• Tap the &quot;Switch Units&quot; button."/>
+                        <Label Text="• Look through the Collectionview items - there's likely at least one cell that didn't update."/>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+        </RefreshView>
+
+
+    </ContentPage.Content>
+</ContentPage>
